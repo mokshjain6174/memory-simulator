@@ -5,15 +5,13 @@ int main() {
     std::cout << "=== Memory Strategy Test ===" << std::endl;
     MemoryManager mem(1024);
     
-    // 1. SETUP: Create holes 
-    // We reduce the sizes slightly to ensure they all fit in 1024 bytes.
-    
+    //allocating memory blocks 
     void* p1 = mem.my_malloc(200);
     void* p2 = mem.my_malloc(300); 
     void* p3 = mem.my_malloc(200);
     void* p4 = mem.my_malloc(50);  
     
-    // Create the holes
+    //Create the holes
     std::cout << "\n--- Creating Holes ---" << std::endl;
     mem.my_free(p2); // Free the 300 block (Big Hole)
     mem.my_free(p4); // Free the 50 block (Small Hole)
@@ -32,5 +30,8 @@ int main() {
     void* p_test = mem.my_malloc(40);
     mem.dump_memory();
 
+    mem.calculate_stats();
+
     return 0;
+
 }

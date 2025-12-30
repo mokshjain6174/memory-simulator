@@ -47,20 +47,19 @@ void MemoryManager::dump_memory() {
     std::cout << "------------------" << std::endl;
 }
 
-// 1. ALLOCATION (First Fit Strategy)
-// 1. Helper Setter
+
+//setting strategy for memory allocation
 void MemoryManager::set_strategy(AllocationStrategy mode) {
     this->strategy = mode;
 }
 
-// 2. The Smart Allocator
+//Allocator
 void* MemoryManager::my_malloc(size_t size) {
     std::cout << "DEBUG: Allocating " << size << " bytes..." << std::endl;
     
     Block* best_block = nullptr;
     Block* current = free_list_head;
 
-    // --- SEARCH PHASE ---
     while (current != nullptr) {
         
         // We only care about blocks that are FREE and BIG ENOUGH
@@ -69,7 +68,7 @@ void* MemoryManager::my_malloc(size_t size) {
             // Strategy 1: FIRST FIT
             if (strategy == FIRST_FIT) {
                 best_block = current;
-                break; // Stop searching immediately
+                break;
             }
 
             // Strategy 2: BEST FIT
@@ -91,7 +90,7 @@ void* MemoryManager::my_malloc(size_t size) {
         current = current->next; // Move to next node
     }
 
-    // --- EXECUTION PHASE ---
+    
     // If we didn't find ANY block, return nullptr
     if (best_block == nullptr) {
         std::cout << "DEBUG: Allocation failed. No memory." << std::endl;
@@ -122,11 +121,10 @@ void* MemoryManager::my_malloc(size_t size) {
 // 2. DEALLOCATION
 void MemoryManager::my_free(void* ptr) {
     if (ptr == nullptr) return;
-
-    // A. Backtrack from the User Pointer to the Header
+    //Backtrack from the User Pointer to the Header
     Block* block_to_free = reinterpret_cast<Block*>(static_cast<char*>(ptr) - sizeof(Block));
 
-    // B. Mark as free
+    //Mark as free
     block_to_free->is_free = true;
     std::cout << "DEBUG: Freed block of size " << block_to_free->size << std::endl;
 
@@ -148,13 +146,52 @@ void MemoryManager::coalesce() {
             
             // skip the next block (removing it from the list)
             current->next = current->next->next;
-            
             std::cout << "DEBUG: Merged adjacent free blocks!" << std::endl;
             
-            // WARNING: Do not move 'current' forward! 
             // We must check if we can merge again with the *new* neighbor.
         } else {
             current = current->next;
         }
     }
+}
+
+void MemoryManager::calculate_stats() {
+    size_t total_free = 0;
+    size_t total_used = 0;
+    size_t largest_free_block = 0;
+    size_t free_blocks_count = 0;
+
+    Block* current = free_list_head;
+
+    while (current != nullptr) {
+        if (current->is_free) {
+            total_free += current->size;
+            free_blocks_count++;
+            if (current->size > largest_free_block) {
+                largest_free_block = current->size;
+            }
+        } else {
+            total_used += current->size;
+        }
+        current = current->next;
+    }
+
+    size_t total_mem = total_free + total_used; // Approximate (excludes headers)
+    
+    // Utilization: Percentage of "Data" space currently occupied
+    double utilization = (total_mem > 0) ? (static_cast<double>(total_used) / total_mem) * 100.0 : 0.0;
+
+    // Fragmentation: (Total Free - Largest Chunk) / Total Free
+    // This tells us how much of our free RAM is "trapped" in small unusable holes.
+    double fragmentation = (total_free > 0) ? 
+        (static_cast<double>(total_free - largest_free_block) / total_free) * 100.0 : 0.0;
+
+    std::cout << "\n=== Memory Statistics ===" << std::endl;
+    std::cout << "Total Memory (Data): " << total_mem << " bytes" << std::endl;
+    std::cout << "Used Memory:         " << total_used << " bytes" << std::endl;
+    std::cout << "Free Memory:         " << total_free << " bytes" << std::endl;
+    std::cout << "Free Blocks Count:   " << free_blocks_count << std::endl;
+    std::cout << "Utilization:         " << utilization << "%" << std::endl;
+    std::cout << "Ext. Fragmentation:  " << fragmentation << "%" << std::endl;
+    std::cout << "=========================" << std::endl;
 }

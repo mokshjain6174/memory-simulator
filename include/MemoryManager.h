@@ -35,6 +35,8 @@ public:
 
     // 3. NEW: Setter function to change strategy
     void set_strategy(AllocationStrategy mode);
+    // Calculates and prints statistics
+    void calculate_stats();
 };
 
 #endif
