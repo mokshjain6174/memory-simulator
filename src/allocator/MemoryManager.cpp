@@ -2,26 +2,19 @@
 #include <new> 
 #include "MemoryManager.h" 
 
-MemoryManager::MemoryManager(size_t size) {
-    this->total_size = size;
-    
-    //Allocate the "Physical RAM"
-    try {
-        this->memory_start = ::operator new(size);
-    } catch (const std::bad_alloc& e) {
+MemoryManager::MemoryManager(size_t size){
+    this->total_size=size;
+    try{
+        this->memory_start= ::operator new(size);
+    }catch(const std::bad_alloc& e){
         std::cerr << "Fatal Error: Could not allocate simulated RAM." << std::endl;
         throw;
     }
 
-    //Initialize the Free List
-    // We cast the start of the raw memory to a Block pointer.
-    this->free_list_head = reinterpret_cast<Block*>(memory_start);
-
-    //The usable size is Total RAM minus the size of the header itself.
-    this->free_list_head->size = size - sizeof(Block);
-    this->free_list_head->is_free = true;
-    this->free_list_head->next = nullptr; 
-
+    this->free_list_head=reinterpret_cast<Block*>(memory_start);
+    this->free_list_head->size=size-sizeof(Block);
+    this->free_list_head->is_free=true;
+    this->free_list_head->next = nullptr;
     std::cout << "DEBUG: Memory Initialized. Start Address: " << memory_start 
               << " | Metadata Size: " << sizeof(Block) << " bytes" << std::endl;
 }
@@ -31,11 +24,10 @@ MemoryManager::~MemoryManager() {
     ::operator delete(memory_start);
     std::cout << "DEBUG: Memory Destroyed." << std::endl;
 }
-
-void MemoryManager::dump_memory() {
+void MemoryManager::dump_memory(){
     std::cout << "--- Memory Map ---" << std::endl;
-    Block* current = free_list_head;
-    while (current != nullptr) {
+    Block* current=free_list_head;
+    while(current!=nullptr){
         std::cout << "[Block @ " << current << "] ";
         if (current->is_free) {
             std::cout << "FREE";
@@ -61,19 +53,22 @@ void* MemoryManager::my_malloc(size_t size) {
     Block* best_block = nullptr;
 
     while (current != nullptr) {
-        if (current->is_free && current->size >= size) {
-            if (strategy == FIRST_FIT) {
-                best_block = current;
-                break; 
-            }
-            else if (strategy == BEST_FIT) {
-                if (best_block == nullptr || current->size < best_block->size) best_block = current;
-            }
-            else if (strategy == WORST_FIT) {
-                if (best_block == nullptr || current->size > best_block->size) best_block = current;
+        if(current->is_free && current->size>=size){
+            if(strategy==FIRST_FIT){
+                best_block=current;
+                break;
+            }else if(strategy==BEST_FIT){
+                if(best_block==nullptr || current->size < best_block->size){
+                    best_block=current;
+                }
+            }else if(strategy==WORST_FIT){
+                if(best_block==nullptr || current->size > best_block->size){
+                    best_block=current;
+                }
             }
         }
-        current = current->next;
+        current=current->next;
+        
     }
 
     if (best_block == nullptr) {
@@ -83,23 +78,22 @@ void* MemoryManager::my_malloc(size_t size) {
     // --- ALLOCATION & ID ASSIGNMENT ---
     
     // Split Logic
-    if (best_block->size > size + sizeof(Block)) {
-        Block* new_block = reinterpret_cast<Block*>(
-            reinterpret_cast<char*>(best_block) + sizeof(Block) + size
-        );
-        new_block->id = 0; // Free blocks have ID 0
-        new_block->size = best_block->size - size - sizeof(Block);
-        new_block->is_free = true;
-        new_block->next = best_block->next;
+    if(best_block->size > size + sizeof(Block)){
+        Block* new_block=reinterpret_cast<Block*>(reinterpret_cast<char*>
+        (best_block)+sizeof(Block) + size);
+        
+        new_block->id=0;
+        new_block->is_free=true;
+        new_block->size=best_block->size - size - sizeof(Block);
+        new_block->next=best_block->next;
 
-        best_block->size = size;
-        best_block->is_free = false;
-        best_block->next = new_block;
-    } else {
-        best_block->is_free = false;
+        best_block->size=size;
+        best_block->is_free=false;
+        best_block->next=new_block;
+    }else{
+        best_block->is_free=false;
     }
 
-    
     best_block->id = this->next_id++; 
     
     return reinterpret_cast<void*>(reinterpret_cast<char*>(best_block) + sizeof(Block));

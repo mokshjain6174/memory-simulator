@@ -8,7 +8,6 @@ enum AllocationStrategy {
     BEST_FIT,
     WORST_FIT
 };
-
 struct Block {
     int id;           
     size_t size;
