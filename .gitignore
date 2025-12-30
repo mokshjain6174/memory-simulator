@@ -1,0 +1,10 @@
+# Ignore compiled executables
+*.exe
+memsim
+test_sim
+
+# Ignore compiled object files
+*.o
+
+# Ignore VS Code settings
+.vscode/
