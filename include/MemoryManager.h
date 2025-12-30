@@ -1,9 +1,8 @@
 #ifndef MEMORY_MANAGER_H
 #define MEMORY_MANAGER_H
 
-#include <cstddef> // For size_t
+#include <cstddef> 
 
-// 1. NEW: Define the strategies available
 enum AllocationStrategy {
     FIRST_FIT,
     BEST_FIT,
@@ -11,6 +10,7 @@ enum AllocationStrategy {
 };
 
 struct Block {
+    int id;           
     size_t size;
     bool is_free;
     Block* next;
@@ -21,9 +21,8 @@ private:
     void* memory_start;
     size_t total_size;
     Block* free_list_head;
-    
-    // 2. NEW: Variable to store the current active strategy
-    AllocationStrategy strategy = FIRST_FIT; 
+    AllocationStrategy strategy;
+    int next_id = 1;
 
 public:
     MemoryManager(size_t size);
@@ -32,11 +31,9 @@ public:
     void* my_malloc(size_t size);
     void my_free(void* ptr);
     void coalesce();
-
-    // 3. NEW: Setter function to change strategy
-    void set_strategy(AllocationStrategy mode);
-    // Calculates and prints statistics
     void calculate_stats();
+    void set_strategy(AllocationStrategy mode);
+    int get_block_id(void* ptr);
 };
 
 #endif

@@ -1,6 +1,6 @@
 #include <iostream>
-#include <new> // For std::bad_alloc
-#include "MemoryManager.h" // The compiler will find this using the -I flag
+#include <new> 
+#include "MemoryManager.h" 
 
 MemoryManager::MemoryManager(size_t size) {
     this->total_size = size;
@@ -17,7 +17,6 @@ MemoryManager::MemoryManager(size_t size) {
     // We cast the start of the raw memory to a Block pointer.
     this->free_list_head = reinterpret_cast<Block*>(memory_start);
 
-    //Set the metadata
     //The usable size is Total RAM minus the size of the header itself.
     this->free_list_head->size = size - sizeof(Block);
     this->free_list_head->is_free = true;
@@ -36,12 +35,14 @@ MemoryManager::~MemoryManager() {
 void MemoryManager::dump_memory() {
     std::cout << "--- Memory Map ---" << std::endl;
     Block* current = free_list_head;
-    
     while (current != nullptr) {
-        std::cout << "[Block @ " << current << "] "
-                  << (current->is_free ? "FREE" : "USED")
-                  << " | Size: " << current->size 
-                  << " bytes" << std::endl;
+        std::cout << "[Block @ " << current << "] ";
+        if (current->is_free) {
+            std::cout << "FREE";
+        } else {
+            std::cout << "USED (id=" << current->id << ")";
+        }
+        std::cout << " | Size: " << current->size << " bytes" << std::endl;
         current = current->next;
     }
     std::cout << "------------------" << std::endl;
@@ -55,53 +56,38 @@ void MemoryManager::set_strategy(AllocationStrategy mode) {
 
 //Allocator
 void* MemoryManager::my_malloc(size_t size) {
-    std::cout << "DEBUG: Allocating " << size << " bytes..." << std::endl;
     
-    Block* best_block = nullptr;
     Block* current = free_list_head;
+    Block* best_block = nullptr;
 
     while (current != nullptr) {
-        
-        // We only care about blocks that are FREE and BIG ENOUGH
         if (current->is_free && current->size >= size) {
-            
-            // Strategy 1: FIRST FIT
             if (strategy == FIRST_FIT) {
                 best_block = current;
-                break;
+                break; 
             }
-
-            // Strategy 2: BEST FIT
-            // We want the SMALLEST block that works
             else if (strategy == BEST_FIT) {
-                if (best_block == nullptr || current->size < best_block->size) {
-                    best_block = current;
-                }
+                if (best_block == nullptr || current->size < best_block->size) best_block = current;
             }
-
-            // Strategy 3: WORST FIT
-            // We want the LARGEST block available
             else if (strategy == WORST_FIT) {
-                if (best_block == nullptr || current->size > best_block->size) {
-                    best_block = current;
-                }
+                if (best_block == nullptr || current->size > best_block->size) best_block = current;
             }
         }
-        current = current->next; // Move to next node
+        current = current->next;
     }
 
-    
-    // If we didn't find ANY block, return nullptr
     if (best_block == nullptr) {
-        std::cout << "DEBUG: Allocation failed. No memory." << std::endl;
         return nullptr;
     }
 
-    // If we found a block, check if we need to SPLIT it
+    // --- ALLOCATION & ID ASSIGNMENT ---
+    
+    // Split Logic
     if (best_block->size > size + sizeof(Block)) {
         Block* new_block = reinterpret_cast<Block*>(
             reinterpret_cast<char*>(best_block) + sizeof(Block) + size
         );
+        new_block->id = 0; // Free blocks have ID 0
         new_block->size = best_block->size - size - sizeof(Block);
         new_block->is_free = true;
         new_block->next = best_block->next;
@@ -109,12 +95,13 @@ void* MemoryManager::my_malloc(size_t size) {
         best_block->size = size;
         best_block->is_free = false;
         best_block->next = new_block;
-        std::cout << "DEBUG: Strategy selected block. Split performed." << std::endl;
     } else {
         best_block->is_free = false;
-        std::cout << "DEBUG: Strategy selected block. Exact fit used." << std::endl;
     }
 
+    
+    best_block->id = this->next_id++; 
+    
     return reinterpret_cast<void*>(reinterpret_cast<char*>(best_block) + sizeof(Block));
 }
 
@@ -194,4 +181,11 @@ void MemoryManager::calculate_stats() {
     std::cout << "Utilization:         " << utilization << "%" << std::endl;
     std::cout << "Ext. Fragmentation:  " << fragmentation << "%" << std::endl;
     std::cout << "=========================" << std::endl;
+}
+
+int MemoryManager::get_block_id(void* ptr) {
+    if (!ptr) return -1;
+    // Go back 24 bytes (or sizeof(Block)) to find the header
+    Block* block = reinterpret_cast<Block*>(static_cast<char*>(ptr) - sizeof(Block));
+    return block->id;
 }
