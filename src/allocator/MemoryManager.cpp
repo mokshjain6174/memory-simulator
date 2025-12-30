@@ -48,53 +48,75 @@ void MemoryManager::dump_memory() {
 }
 
 // 1. ALLOCATION (First Fit Strategy)
+// 1. Helper Setter
+void MemoryManager::set_strategy(AllocationStrategy mode) {
+    this->strategy = mode;
+}
+
+// 2. The Smart Allocator
 void* MemoryManager::my_malloc(size_t size) {
-    std::cout << "DEBUG: Requesting allocation of " << size << " bytes..." << std::endl;
+    std::cout << "DEBUG: Allocating " << size << " bytes..." << std::endl;
     
+    Block* best_block = nullptr;
     Block* current = free_list_head;
 
+    // --- SEARCH PHASE ---
     while (current != nullptr) {
-        // STRATEGY: First Fit [cite: 22]
-        // Check if the block is FREE and has enough SIZE
+        
+        // We only care about blocks that are FREE and BIG ENOUGH
         if (current->is_free && current->size >= size) {
             
-            //CHECK:Can we split this block?[cite: 27]
-            //We need enough space for the requested data + a NEW header + at least 1 byte of data , so that split is usefull
-            if (current->size > size + sizeof(Block)) {
-                
-                // A. Calculate address of the new neighbor block
-                // (Current Address + Header Size + Request Size)
-                Block* new_block = reinterpret_cast<Block*>(
-                    reinterpret_cast<char*>(current) + sizeof(Block) + size
-                );
-
-                // B. Setup the new block's metadata
-                new_block->size = current->size - size - sizeof(Block);
-                new_block->is_free = true;
-                new_block->next = current->next; // Insert into list
-
-                // C. Update the current block (User gets this part)
-                current->size = size;
-                current->is_free = false;
-                current->next = new_block; // Point to our new neighbor
-
-                std::cout << "DEBUG: Split block. New free hole size: " << new_block->size << std::endl;
-            } else {
-                // Exact fit (or too small to split usefuly)
-                current->is_free = false;
-                std::cout << "DEBUG: Exact fit used. No split." << std::endl;
+            // Strategy 1: FIRST FIT
+            if (strategy == FIRST_FIT) {
+                best_block = current;
+                break; // Stop searching immediately
             }
 
-            // RETURN: Pointer to the DATA, not the header!
-            return reinterpret_cast<void*>(reinterpret_cast<char*>(current) + sizeof(Block));
-        }
+            // Strategy 2: BEST FIT
+            // We want the SMALLEST block that works
+            else if (strategy == BEST_FIT) {
+                if (best_block == nullptr || current->size < best_block->size) {
+                    best_block = current;
+                }
+            }
 
-        // Advance to next block , (iterations)
-        current = current->next;
+            // Strategy 3: WORST FIT
+            // We want the LARGEST block available
+            else if (strategy == WORST_FIT) {
+                if (best_block == nullptr || current->size > best_block->size) {
+                    best_block = current;
+                }
+            }
+        }
+        current = current->next; // Move to next node
     }
 
-    std::cout << "DEBUG: Allocation failed! No suitable block found." << std::endl;
-    return nullptr;
+    // --- EXECUTION PHASE ---
+    // If we didn't find ANY block, return nullptr
+    if (best_block == nullptr) {
+        std::cout << "DEBUG: Allocation failed. No memory." << std::endl;
+        return nullptr;
+    }
+
+    // If we found a block, check if we need to SPLIT it
+    if (best_block->size > size + sizeof(Block)) {
+        Block* new_block = reinterpret_cast<Block*>(
+            reinterpret_cast<char*>(best_block) + sizeof(Block) + size
+        );
+        new_block->size = best_block->size - size - sizeof(Block);
+        new_block->is_free = true;
+        new_block->next = best_block->next;
+
+        best_block->size = size;
+        best_block->is_free = false;
+        best_block->next = new_block;
+        std::cout << "DEBUG: Strategy selected block. Split performed." << std::endl;
+    } else {
+        best_block->is_free = false;
+        std::cout << "DEBUG: Strategy selected block. Exact fit used." << std::endl;
+    }
+
+    return reinterpret_cast<void*>(reinterpret_cast<char*>(best_block) + sizeof(Block));
 }
 
 // 2. DEALLOCATION
@@ -115,14 +137,13 @@ void MemoryManager::my_free(void* ptr) {
 // 3. COALESCING (Merging neighbor free blocks into single bigger block)
 void MemoryManager::coalesce() {
     Block* current = free_list_head;
-
     while (current != nullptr && current->next != nullptr) {
         
         // If THIS block is free AND the NEXT block is free...
         if (current->is_free && current->next->is_free) {
             
             //make single bigger block
-            //new size = my size + next header size + Next Data Size
+            //new size = my size + next header size+Next Data Size
             current->size += sizeof(Block) + current->next->size;
             
             // skip the next block (removing it from the list)

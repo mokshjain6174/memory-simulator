@@ -1,37 +1,40 @@
 #ifndef MEMORY_MANAGER_H
 #define MEMORY_MANAGER_H
 
-#include <cstddef> 
+#include <cstddef> // For size_t
 
-// The metadata header for every memory block
+// 1. NEW: Define the strategies available
+enum AllocationStrategy {
+    FIRST_FIT,
+    BEST_FIT,
+    WORST_FIT
+};
+
 struct Block {
-    size_t size;       // Size of the data part (excluding this header)
-    bool is_free;      // Is this block free or used?
-    Block* next;       // Pointer to the next block in the list
+    size_t size;
+    bool is_free;
+    Block* next;
 };
 
 class MemoryManager {
 private:
-    void* memory_start;      // Pointer to the start of our simulated RAM
-    size_t total_size;       // Total size of the simulated RAM
-    Block* free_list_head;   // Head of the linked list of blocks
+    void* memory_start;
+    size_t total_size;
+    Block* free_list_head;
+    
+    // 2. NEW: Variable to store the current active strategy
+    AllocationStrategy strategy = FIRST_FIT; 
 
 public:
-    // Constructor: Initializes the memory pool
     MemoryManager(size_t size);
-
-    // Destructor: Cleans up the memory pool
     ~MemoryManager();
-
-    // Helper to see what the memory looks like
     void dump_memory();
-
-    // (Phase 2 functions will go here later)
     void* my_malloc(size_t size);
     void my_free(void* ptr);
-
-    //Helper function to merge adjacent free blocks
     void coalesce();
+
+    // 3. NEW: Setter function to change strategy
+    void set_strategy(AllocationStrategy mode);
 };
 
 #endif
