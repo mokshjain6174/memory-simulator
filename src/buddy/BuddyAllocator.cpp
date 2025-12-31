@@ -53,8 +53,6 @@ void* BuddyAllocator::buddy_malloc(size_t size) {
         BuddyBlock* buddy = reinterpret_cast<BuddyBlock*>(
             reinterpret_cast<char*>(block) + buddy_size
         );
-
-        
         block->size = buddy_size;
         block->is_free = true;
         
@@ -75,19 +73,12 @@ void* BuddyAllocator::buddy_malloc(size_t size) {
     free_lists[order] = allocated->next;
 
     allocated->is_free = false;
-    
-    
     return reinterpret_cast<void*>(reinterpret_cast<char*>(allocated) + sizeof(BuddyBlock));
 }
-
 void BuddyAllocator::buddy_free(void* ptr) {
     if (!ptr) return;
-
-    
     BuddyBlock* block = reinterpret_cast<BuddyBlock*>(static_cast<char*>(ptr) - sizeof(BuddyBlock));
     size_t size = block->size;
-    
-    
     block->is_free = true;
     std::cout << "DEBUG: Freeing block of size " << size << std::endl;
 
@@ -101,13 +92,10 @@ void BuddyAllocator::buddy_free(void* ptr) {
             reinterpret_cast<char*>(memory_start) + buddy_offset
         );
 
-
         if (!buddy->is_free || buddy->size != size) {
             break; 
         }
-
         std::cout << "DEBUG: Merging with buddy at offset " << buddy_offset << std::endl;
-
         int order = get_order(size);
         BuddyBlock* curr = free_lists[order];
         BuddyBlock* prev = nullptr;
@@ -126,12 +114,10 @@ void BuddyAllocator::buddy_free(void* ptr) {
         block->size = size;
     }
 
-
     int final_order = get_order(size);
     block->next = free_lists[final_order];
     free_lists[final_order] = block;
 }
-
 void BuddyAllocator::dump_buddy_memory() {
     std::cout << "--- Buddy Free Lists ---" << std::endl;
     for (size_t i = 0; i < free_lists.size(); i++) {
