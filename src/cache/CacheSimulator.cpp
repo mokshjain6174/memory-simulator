@@ -4,12 +4,11 @@
 #include <iomanip>
 #include <algorithm>
 #include <string>
-#include <cstdint> // <--- THIS WAS MISSING! fixes uint64_t error
+#include <cstdint>
 
-// --- Configuration Constants ---
+
 const int ADDR_BITS = 32;
 
-// Enum to select the policy
 enum ReplacementPolicy { FIFO, LRU, LFU };
 
 struct CacheConfig {
@@ -41,7 +40,7 @@ private:
 
     std::vector<std::vector<CacheLine>> sets;
     
-    // Statistics
+    // Stats
     long long hits = 0;
     long long misses = 0;
     
@@ -63,16 +62,16 @@ public:
     }
 
     int access(uint64_t address) {
-        globalCounter++; // Increment time on every access
+        globalCounter++; //Increment time on every access
 
-        // 1. Parse Address
-        uint64_t offsetMask = (1ULL << offsetBits) - 1; // 1ULL ensures 64-bit shift
+        //Parse Address
+        uint64_t offsetMask = (1ULL << offsetBits) - 1; //1ULL ensures 64-bit shift
         uint64_t indexMask = ((1ULL << indexBits) - 1);
         
         uint64_t setIndex = (address >> offsetBits) & indexMask;
         uint64_t tag = (address >> (offsetBits + indexBits));
 
-        // 2. Search for Tag
+        //Search for Tag
         for (auto& line : sets[setIndex]) {
             if (line.valid && line.tag == tag) {
                 // --- HIT ---
@@ -196,7 +195,6 @@ int main() {
     // Example: To use FIFO, change 'LRU' to 'FIFO' below:
     CacheConfig l2Config = {"L2 Cache", 4096, 64, 4, 10, FIFO}; 
     CacheLevel* L2 = new CacheLevel(l2Config, nullptr);
-
     CacheConfig l1Config = {"L1 Cache", 1024, 64, 2, 1, FIFO}; 
     CacheLevel* L1 = new CacheLevel(l1Config, L2);
 
@@ -215,7 +213,6 @@ int main() {
     for (uint64_t addr : trace) {
         totalCycles += L1->access(addr);
     }
-
     std::cout << "\n=== Results ===" << std::endl;
     L1->printStats();
     L2->printStats();
