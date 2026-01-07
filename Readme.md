@@ -26,7 +26,7 @@ The goal of this simulator is to visualize and analyze the performance trade-off
 * `run_all_tests.bat` : Windows automated test runner
 * `Makefile` : Build configuration script
 * `Readme.md` : Project documentation
-* `DesignDoc.md` : Design Document
+* `docs/` : Design Document
 
 ---
 ## ✨ Features
