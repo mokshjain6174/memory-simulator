@@ -13,6 +13,10 @@ The goal of this simulator is to visualize and analyze the performance trade-off
 
 ---
 
+Demo Video : 
+
+---
+
 ## ✨ Features
 
 ### 1. Dynamic Memory Allocation
@@ -33,7 +37,7 @@ The goal of this simulator is to visualize and analyze the performance trade-off
 ## ⚙️ Prerequisites
 
 - **C++ Compiler:** GCC / MinGW (`g++`) with **C++17** support
-- **Make:** Optional (recommended via **MSYS2 MinGW64**)
+- **Make:** Optional 
 
 ---
 
@@ -49,7 +53,7 @@ make
 ./memsim
 ```
 ---
-### Method 2: Using `mingw32-make` (prefered MSYS MINGW64)
+### Method 2: Using `mingw32-make` (recommended **MSYS MINGW64**)
 If the standard make command is not found, try using the MinGW specific make command:
 
 ```bash
@@ -102,9 +106,9 @@ chmod +x run_all_tests.sh
 ---
 ### For Windows (cmd)
 ### Manually
-Example - It's output is stored in 
+Example - It's output is stored in buddy_out.txt
 ```
-memsim.exe < test\linear.txt >> output\linear_out.txt
+memsim.exe < test\buddy.txt > output\buddy_out.txt
 ```
 ### Automated
 Running each test and saving all outputs in in one file `all_tests.txt`
