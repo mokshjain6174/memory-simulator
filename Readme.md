@@ -82,3 +82,31 @@ g++ -std=c++17 -O2 -Wall src/main.cpp src/memory.cpp src/buddy.cpp src/cache.cpp
 memsim.exe
 ```
 ---
+
+
+## 🚀 How to Run Automated Tests
+---
+### Run each test and save output
+Example
+```
+./memsim.exe < test/buddy.txt  > output/buddy_out.txt
+```
+### Running each test and saving all outputs in in one file `all_tests.txt`
+```
+chmod +x run_all_tests.sh
+./run_all_tests.sh
+```
+
+---
+### For Windows (cmd)
+### Run each test and save output
+```
+memsim.exe < test\linear.txt >> output\all_tests.txt
+```
+### Running each test and saving all outputs in in one file `all_tests.txt`
+```
+run_all_tests.bat
+```
+
+
+
