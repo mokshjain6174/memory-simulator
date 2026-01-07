@@ -118,7 +118,7 @@ To speed up access, the system uses a two-level cache between the CPU and RAM.
 ### 5.1 Hierarchy Structure
 * **L1 Cache:** Small and extremely fast (1 cycle latency). Checked first.
 * **L2 Cache:** Larger but slower (6 cycle latency). Checked if L1 misses.
-* **Set Associativity:** Caches are divided into "Sets." A memory block can only go into a specific set based on its address. This mimics real hardware behavior.Where set index is obtained by formula : *Set Index = Memory Address / Block Size % Number of Sets*.
+* **Set Associativity:** Caches are divided into "Sets." A memory block can only go into a specific set based on its address. This mimics real hardware behavior.Where set index is obtained by formula : *Set Index = (Memory Address / Block Size) % Number of Sets*.
 
 ### 5.2 Replacement Policy: FIFO (First-In, First-Out)
 When a Cache Set is full and new data needs to be loaded, the system must evict an old block.
@@ -141,10 +141,12 @@ Unlike the cache (which uses FIFO), the Virtual Memory system uses **LRU (Least 
 
 While this simulator is comprehensive, it simplifies certain aspects of a real OS:
 
-1.  **No Hardware TLB:** In a real CPU, a "Translation Lookaside Buffer" caches page table entries to speed up translation. We simulate the Page Table lookup directly.
-2.  **Single-Level Paging:** We use a simple flat array for Page Tables. Real Operating Systems often use Multi-level paging (e.g., Page Directory -> Page Table) to save space.
-3.  **Instruction Execution:** We simulate memory *accesses* (reads/writes) but do not actually execute assembly instructions or binary code.
-4.  **Static PIDs:** Processes are manually initialized via the menu, whereas a real OS spawns them dynamically via system calls like `fork()` or `exec()`.
+## Assumptions & Simplifications
+* Implicit demand paging: unmapped pages trigger a page fault and are automatically mapped (no segmentation faults).
+* Heap & paging are independent: allocators manage heap; paging manages frames/page tables separately.
+* No protection bits: R/W/X permissions are not simulated.
+* Abstracted CPU behavior: we model translation flow, not full instruction execution or traps.
+* Simplified replacement: LRU for pages, FIFO for cache (no dirty‑bit/disk writes).
 
 ---
 
