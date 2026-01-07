@@ -49,7 +49,7 @@ make
 ./memsim
 ```
 ---
-### Method 2: Using mingw32-make
+### Method 2: Using `mingw32-make` (prefered MSYS MINGW64)
 If the standard make command is not found, try using the MinGW specific make command:
 
 ```bash
