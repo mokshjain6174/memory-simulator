@@ -13,10 +13,42 @@ The goal of this simulator is to visualize and analyze the performance trade-off
 
 ---
 
-Demo Video : 
+**Demo Video** : [https://drive.google.com/file/d/15tbWFuZFEO5mgyFKbxJ41Sa27bM2g8Qh/view?usp=sharing](https://drive.google.com/file/d/15tbWFuZFEO5mgyFKbxJ41Sa27bM2g8Qh/view?usp=sharing)
 
 ---
+##  Project Structure
+MemorySimulator/
+├── include/                 # Header files
+│   ├── buddy.h
+│   ├── cache.h
+│   ├── memory.h
+│   └── vm.h
+├── src/                     # Source code
+│   ├── buddy.cpp
+│   ├── cache.cpp
+│   ├── main.cpp             # Entry point (Menu-Driven Interface)
+│   ├── memory.cpp
+│   └── vm.cpp
+├── test/                    # Input test files
+│   ├── buddy.txt
+│   ├── cache.txt
+│   ├── linear.txt
+│   └── vm.txt
+├── output/                  # Output logs (generated from tests)
+│   ├── all_tests.txt
+│   ├── buddy_out.txt
+│   ├── cache_out.txt
+│   ├── linear_out.txt
+│   └── vm_out.txt
+├── Makefile                 # Compilation script
+├── Readme.md                # Project documentation
+├── run_all_tests.bat        # Batch script for running tests (Windows)
+├── run_all_tests.sh         # Shell script for running tests (Linux/Mac)
+├── .gitignore
+└── memsim.exe               # Compiled executable
 
+
+---
 ## ✨ Features
 
 ### 1. Dynamic Memory Allocation
