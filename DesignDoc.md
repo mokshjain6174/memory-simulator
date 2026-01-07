@@ -113,7 +113,7 @@ To speed up access, the system uses a two-level cache between the CPU and RAM.
 
 ### 5.1 Hierarchy Structure
 * **L1 Cache:** Small and extremely fast (1 cycle latency). Checked first.
-* **L2 Cache:** Larger but slower (6 cycle latency). Checked if L1 misses.
+* **L2 Cache:** Larger but slower (5 + 1 cycle latency). Checked if L1 misses.
 * **Set Associativity:** Caches are divided into "Sets." A memory block can only go into a specific set based on its address. This mimics real hardware behavior.Where set index is obtained by formula : *Set Index = (Memory Address / Block Size) % Number of Sets*.
 
 ### 5.2 Replacement Policy: FIFO (First-In, First-Out)
