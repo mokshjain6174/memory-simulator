@@ -2,36 +2,40 @@
 #define CACHE_H
 
 #include <vector>
+#include <queue>
 #include <string>
 
-struct CacheConfig {
-    std::string name;
-    int size;
-    int blockSize;
-    int associativity;
-    int accessTime;
-};
-
 struct CacheLine {
-    bool valid = false;
-    int tag = -1;
-    int fifo_counter = 0;
+    bool valid;
+    int tag;
 };
+extern int l1_penalty;
+extern int l2_penalty;
+extern int memory_penalty;
 
-class CacheLevel {
+extern int total_cycles;
+
+class Cache {
 private:
-    CacheConfig config;
-    int numSets;
+    int cache_size;    
+    int block_size;    
+    int associativity; 
+    int num_sets;     
+
     std::vector<std::vector<CacheLine>> sets;
+    std::vector<std::queue<int>> fifo;
+
+    int accesses = 0;
     int hits = 0;
     int misses = 0;
-    int global_counter = 0;
-    CacheLevel* nextLevel;
 
 public:
-    CacheLevel(CacheConfig cfg, CacheLevel* next = nullptr);
-    int access(int address); 
-    void printStats();
+    Cache(int C, int b, int N);
+
+    bool access(int address);   
+    void insert(int address);
+
+    void print_stats(const std::string &name) const;
 };
 
 #endif

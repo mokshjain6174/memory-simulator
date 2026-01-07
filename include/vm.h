@@ -3,32 +3,29 @@
 
 #include <vector>
 #include <unordered_map>
-#include <iostream>
+using namespace std;
+
+extern int disk_penalty;
 
 struct PageTableEntry {
     bool valid;
-    int frame_number;
+    int frame;
+    int last_used;
 };
 
-class VirtualMemory {
-private:
-    int page_size;
-    int num_frames;
-    
-    // Simulation: frame_owner[frame_index] = PID (or -1 if free)
-    std::vector<int> frame_owner; 
-    
-    // Page Tables: PID -> Vector of Entries
-    std::unordered_map<int, std::vector<PageTableEntry>> page_tables;
+void reset_vm_system(int physical_size, int page_size);
 
-    int page_faults = 0;
-    int page_hits = 0;
+void init_vm(int pid, int virtual_size);
+int vm_access(int pid, int vaddr);
+void dump_page_table(int pid);
 
-public:
-    VirtualMemory(int phys_mem_size, int page_size);
-    void create_process(int pid, int virtual_size);
-    int access(int pid, int virtual_addr); // Returns Physical Address (int)
-    void print_stats();
-};
+bool any_vm_initialized();
+vector<int> get_initialized_pids();
+
+int get_page_hits();
+int get_page_faults();
+
+int get_used_frames(int pid);
+int get_total_frames();
 
 #endif

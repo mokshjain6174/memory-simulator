@@ -2,40 +2,46 @@
 #define MEMORY_H
 
 #include <list>
+#include <vector>
+#include <string>
 #include <iostream>
+#include <unordered_map>
 
+using namespace std;
+extern int total_memory_size;
+
+extern int next_block_id;
+extern unordered_map<int,int> buddy_ids;  
 
 struct Block {
-    int start_addr;
+    int start;
     int size;
-    bool is_free;
-    int id; 
+    bool free;
+    int id;   
 };
 
-enum AllocationStrategy {
-    FIRST_FIT,
-    BEST_FIT,
-    WORST_FIT
-};
+int get_block_id(int start_address);
+int get_block_start_by_id(int id);
 
-class MemoryManager {
-private:
-    int total_size;
-    std::list<Block> memory_list; 
-    AllocationStrategy strategy;
-    int next_id = 1;
+extern list<Block> memory_blocks;
 
-public:
-    MemoryManager(int size);
-    
-    void set_strategy(AllocationStrategy mode);
-    int my_malloc(int size);  
-    void my_free(int address); 
-    void dump_memory();
-    void calculate_stats();
-    
-    // Helper
-    int get_block_id(int address);
-};
+void init_memory(int total_size);
+void dump_memory();
+
+int malloc_first_fit(int size);
+int malloc_best_fit(int size);
+int malloc_worst_fit(int size);
+void free_block(int start_address);
+
+int internal_fragmentation();
+int external_fragmentation();
+double memory_utilization();
+
+extern int total_alloc_requests;
+extern int successful_allocs;
+extern int failed_allocs;
+
+void allocation_stats();
+void reset_allocation_stats();
 
 #endif

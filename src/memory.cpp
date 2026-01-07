@@ -1,113 +1,273 @@
-#include "../include/memory.h"
+#include <list>
+#include <vector>
+#include <iostream>
 #include <iomanip>
+#include "../include/memory.h"
+#include "../include/buddy.h"
+#include <sstream>
+using namespace std;
 
-MemoryManager::MemoryManager(int size) {
-    this->total_size = size;
-    // Initialize memory as one giant free block
-    Block initial_block = {0, size, true, -1};
-    memory_list.push_back(initial_block);
-    strategy = FIRST_FIT;
+int total_alloc_requests = 0;
+int successful_allocs = 0;
+int failed_allocs = 0;
+int total_memory_size = 0;
+
+int next_block_id = 1;
+
+unordered_map<int,int> buddy_ids;
+list<Block> memory_blocks;
+
+void init_memory(int total_size) {
+    memory_blocks.clear();
+    total_memory_size = total_size;
+    next_block_id = 1;
+
+    Block initial;
+    initial.start = 0;
+    initial.size = total_size;
+    initial.free = true;
+    initial.id = -1;
+
+    memory_blocks.push_back(initial);
 }
 
-void MemoryManager::set_strategy(AllocationStrategy mode) {
-    this->strategy = mode;
+void reset_allocation_stats() {
+    total_alloc_requests = 0;
+    successful_allocs  = 0;
+    failed_allocs    = 0;
 }
 
-void MemoryManager::dump_memory() {
-    std::cout << "--- Linear Memory Map ---" << std::endl;
-    for (const auto& block : memory_list) {
-        std::cout << "[Addr: " << std::setw(4) << block.start_addr 
-                  << " | Size: " << std::setw(4) << block.size << "] ";
-        if (block.is_free) {
-            std::cout << "FREE" << std::endl;
-        } else {
-            std::cout << "USED (id=" << block.id << ")" << std::endl;
+void dump_memory() {
+    cout << "----- Memory Dump -----\n";
+
+    for (auto &b : memory_blocks) {
+        int end = b.start + b.size - 1;
+
+        cout << "[0x"
+             << hex << setw(4) << setfill('0') << b.start
+             << " - 0x"
+             << hex << setw(4) << setfill('0') << end
+             << dec << "] ";
+
+        if (b.free)
+            cout << "FREE\n";
+        else
+            cout << "USED (id=" << b.id << ")\n";
+    }
+
+    cout << "-----------------------\n";
+}
+
+int malloc_first_fit(int size) {
+    total_alloc_requests++;
+    if (size <= 0) {
+        cout << "Invalid allocation size\n";
+        failed_allocs++;
+        return -1;
+    }
+
+    for (auto it = memory_blocks.begin(); it != memory_blocks.end(); ++it) {
+
+        if (it->free && it->size >= size) {
+
+            int alloc_start = it->start;
+
+            if (it->size == size) {
+                it->free = false;
+                it->id = next_block_id++;
+            } else {
+                Block allocated{it->start, size, false, next_block_id++};
+                Block remaining{it->start + size,
+                                it->size - size,
+                                true,
+                                -1};
+
+                it = memory_blocks.erase(it);
+                it = memory_blocks.insert(it, allocated);
+                ++it;
+                memory_blocks.insert(it, remaining);
+            }
+
+            successful_allocs++;
+            return alloc_start;
         }
     }
-    std::cout << "-------------------------" << std::endl;
+
+    failed_allocs++;
+    return -1;
 }
 
-int MemoryManager::my_malloc(int size) {
-    auto best_it = memory_list.end();
-    
-    // Find a block based on strategy
-    for (auto it = memory_list.begin(); it != memory_list.end(); ++it) {
-        if (it->is_free && it->size >= size) {
-            if (strategy == FIRST_FIT) {
-                best_it = it;
-                break;
-            } else if (strategy == BEST_FIT) {
-                if (best_it == memory_list.end() || it->size < best_it->size)
-                    best_it = it;
-            } else if (strategy == WORST_FIT) {
-                if (best_it == memory_list.end() || it->size > best_it->size)
-                    best_it = it;
-            }
-        }
-    }
+void free_block(int start_address) {
+    for (auto it = memory_blocks.begin(); it != memory_blocks.end(); ++it) {
 
-    if (best_it == memory_list.end()) return -1; // Allocation failed
+        if (it->start == start_address && !it->free) {
 
-    // Allocation Logic
-    int alloc_start = best_it->start_addr;
-    
-    if (best_it->size == size) {
-        // Perfect fit
-        best_it->is_free = false;
-        best_it->id = next_id++;
-    } else {
-        // Split block
-        Block new_used_block = {best_it->start_addr, size, false, next_id++};
-        Block remaining_free_block = {best_it->start_addr + size, best_it->size - size, true, -1};
-        
-        // Replace old block with two new blocks
-        best_it = memory_list.erase(best_it);
-        memory_list.insert(best_it, new_used_block);
-        memory_list.insert(best_it, remaining_free_block);
-    }
-    
-    return alloc_start;
-}
-
-void MemoryManager::my_free(int address) {
-    for (auto it = memory_list.begin(); it != memory_list.end(); ++it) {
-        if (it->start_addr == address) {
-            if (it->is_free) {
-                std::cout << "Error: Block already free." << std::endl;
-                return;
-            }
-            it->is_free = true;
+            it->free = true;
             it->id = -1;
-            
-            // Coalesce (Merge) Logic
-            // Check next
-            auto next = std::next(it);
-            if (next != memory_list.end() && next->is_free) {
-                it->size += next->size;
-                memory_list.erase(next);
-            }
-            
-            // Check prev
-            if (it != memory_list.begin()) {
-                auto prev = std::prev(it);
-                if (prev->is_free) {
+
+            if (it != memory_blocks.begin()) {
+                auto prev = it;
+                --prev;
+                if (prev->free) {
                     prev->size += it->size;
-                    memory_list.erase(it);
+                    it = memory_blocks.erase(it);
+                    it = prev;
                 }
             }
+
+            auto next = it;
+            ++next;
+            if (next != memory_blocks.end() && next->free) {
+                it->size += next->size;
+                memory_blocks.erase(next);
+            }
+
             return;
         }
     }
-    std::cout << "Error: Invalid address." << std::endl;
 }
 
-void MemoryManager::calculate_stats() {
-    int total_free = 0;
-    int total_used = 0;
-    for (const auto& b : memory_list) {
-        if (b.is_free) total_free += b.size;
-        else total_used += b.size;
+int malloc_best_fit(int size) {
+    total_alloc_requests++;
+    if (size <= 0) {
+        cout << "Invalid allocation size\n";
+        failed_allocs++;
+        return -1;
     }
-    std::cout << "Total: " << total_size << " | Used: " << total_used 
-              << " | Free: " << total_free << std::endl;
+
+    auto best = memory_blocks.end();
+
+    for (auto it = memory_blocks.begin(); it != memory_blocks.end(); ++it) {
+        if (it->free && it->size >= size) {
+            if (best == memory_blocks.end() || it->size < best->size)
+                best = it;
+        }
+    }
+
+    if (best == memory_blocks.end()) {
+        failed_allocs++;
+        return -1;
+    }
+
+    int alloc_start = best->start;
+
+    if (best->size == size) {
+        best->free = false;
+        best->id = next_block_id++;
+    } else {
+        Block allocated{best->start, size, false, next_block_id++};
+        Block remaining{best->start + size,
+                        best->size - size,
+                        true,
+                        -1};
+
+        best = memory_blocks.erase(best);
+        best = memory_blocks.insert(best, allocated);
+        ++best;
+        memory_blocks.insert(best, remaining);
+    }
+
+    successful_allocs++;
+    return alloc_start;
+}
+
+int malloc_worst_fit(int size) {
+    total_alloc_requests++;
+    if (size <= 0) {
+        cout << "Invalid allocation size\n";
+        failed_allocs++;
+        return -1;
+    }
+
+    auto worst = memory_blocks.end();
+
+    for (auto it = memory_blocks.begin(); it != memory_blocks.end(); ++it) {
+        if (it->free && it->size >= size) {
+            if (worst == memory_blocks.end() || it->size > worst->size)
+                worst = it;
+        }
+    }
+
+    if (worst == memory_blocks.end()) {
+        failed_allocs++;
+        return -1;
+    }
+
+    int alloc_start = worst->start;
+
+    if (worst->size == size) {
+        worst->free = false;
+        worst->id = next_block_id++;
+    } else {
+        Block allocated{worst->start, size, false, next_block_id++};
+        Block remaining{worst->start + size,
+                        worst->size - size,
+                        true,
+                        -1};
+
+        worst = memory_blocks.erase(worst);
+        worst = memory_blocks.insert(worst, allocated);
+        ++worst;
+        memory_blocks.insert(worst, remaining);
+    }
+
+    successful_allocs++;
+    return alloc_start;
+}
+
+int internal_fragmentation() {
+    return 0;  
+}
+
+int external_fragmentation() {
+    int total_free = 0;
+    int max_free = 0;
+
+    for (auto &b : memory_blocks) {
+        if (b.free) {
+            total_free += b.size;
+            max_free = max(max_free, b.size);
+        }
+    }
+
+    return total_free - max_free;
+}
+
+double memory_utilization() {
+    int used = 0, total = 0;
+
+    for (auto &b : memory_blocks) {
+        total += b.size;
+        if (!b.free) used += b.size;
+    }
+    
+    return total ? (used * 100.0 / total) : 0.0;
+}
+
+void allocation_stats() {
+    cout << "Allocation Requests: " << total_alloc_requests << "\n";
+    cout << "Successful Allocations: " << successful_allocs << "\n";
+    cout << "Failed Allocations: " << failed_allocs << "\n";
+
+    double rate = total_alloc_requests
+        ? (successful_allocs * 100.0 / total_alloc_requests)
+        : 0.0;
+
+    cout << "Allocation Success Rate: " << rate << "%\n";
+}
+
+int get_block_id(int start_address) {
+    for (auto &b : memory_blocks) {
+        if (!b.free && b.start == start_address)
+            return b.id;
+    }
+    return -1;
+}
+
+int get_block_start_by_id(int id) {
+    for (auto &b : memory_blocks) {
+        if (!b.free && b.id == id)
+            return b.start;
+    }
+    return -1;
 }

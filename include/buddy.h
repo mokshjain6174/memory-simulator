@@ -2,25 +2,37 @@
 #define BUDDY_H
 
 #include <vector>
-#include <list>
 #include <unordered_map>
-#include <cmath>
-#include <iostream>
+#include <list>
+using namespace std;
 
 class BuddyAllocator {
 private:
     int total_size;
-    std::vector<std::list<int>> free_lists; 
-    
-    std::unordered_map<int, int> allocated_blocks; 
+    int min_order;
+    int max_order;
+    int used_memory = 0;
 
-    int get_order(int size);
+    vector<list<int>> free_list;
+    unordered_map<int,int> allocated_order;
+    unordered_map<int,int> requested_size;  
+
+    int size_to_order(int size);
+    bool is_power_of_two(int x);
 
 public:
-    BuddyAllocator(int size);
+    BuddyAllocator(int memory_size, int min_block_size);
+
     int buddy_malloc(int size);
-    void buddy_free(int address);
-    void dump_buddy_memory();
+    void buddy_free(int addr);
+
+    int get_used_memory() const;
+    void dump_free_lists();
+
+    int get_internal_fragmentation() const;
+    void dump_allocations() const;
+
+    int get_order(int addr) const;
 };
 
 #endif
