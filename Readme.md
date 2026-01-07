@@ -108,6 +108,16 @@ memsim.exe < test\linear.txt >> output\all_tests.txt
 ```
 run_all_tests.bat
 ```
+---
+
+##Assumptions & Simplifications
+* Implicit demand paging: unmapped pages trigger a page fault and are automatically mapped (no segmentation faults).
+* Heap & paging are independent: allocators manage heap; paging manages frames/page tables separately.
+* No protection bits: R/W/X permissions are not simulated.
+* Abstracted CPU behavior: we model translation flow, not full instruction execution or traps.
+* Simplified replacement: LRU for pages, FIFO for cache (no dirty‑bit/disk writes).
+
+---
 
 
 
