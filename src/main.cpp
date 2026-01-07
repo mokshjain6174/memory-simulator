@@ -167,7 +167,7 @@ int main() {
         }
 
         switch (user_selection) {
-            // CASE 1: CONFIGURATION 
+        
             case 1: {
                 int input_ram, input_page;
                 cout << "\n>> Configure RAM Size (bytes): ";
@@ -214,7 +214,7 @@ int main() {
                 current_strategy = STRAT_UNSET;
                 total_cycles = 0;
                 
-                // Added Detailed Echo matching Friend's Output
+                
                 cout << "\n[System] Initialization Complete.\n";
                 cout << "Physical Memory : " << config_ram_size << " bytes\n";
                 cout << "Page Size (for Virtual Memory simulations)  : " << config_page_size << " bytes\n";
@@ -224,7 +224,6 @@ int main() {
                 break;
             }
 
-            // CASE 2: ALLOCATION 
             case 2: {
                 if (config_ram_size == 0) {
                     cout << "Alert: Initialize system first.\n";
@@ -302,7 +301,7 @@ int main() {
                 break;
             }
 
-            // CASE 3: VIRTUAL MEMORY
+            
             case 3: {
                 if (config_ram_size == 0) {
                     cout << "Alert: Initialize system first.\n";
@@ -315,14 +314,14 @@ int main() {
                     cin >> vm_act;
 
                     switch(vm_act) {
-                        case 1: { // vm_init
+                        case 1: { 
                             int p, v;
                             cout << "   PID: "; cin >> p;
                             cout << "   Size: "; cin >> v;
                             init_vm(p, v);
                             break;
                         }
-                        case 2: { // access
+                        case 2: { 
                             int p, vaddr;
                             cout << "   PID: "; cin >> p;
                             cout << "   Virtual Addr: "; cin >> vaddr;
@@ -335,7 +334,7 @@ int main() {
                             }   
                             break;
                         }
-                        case 3: { // vm_table
+                        case 3: { 
                             int p;
                             cout << "   PID: "; cin >> p;
                             dump_page_table(p);
@@ -351,7 +350,6 @@ int main() {
                 break;
             }
 
-            // CASE 4: STATISTICS & DUMP
             case 4: {
                 int stat_choice;
                 cout << "\n   [1] Visual Map (Dump)\n   [2] Detailed Stats\n   Choice: ";
@@ -372,7 +370,7 @@ int main() {
                 break;
             }
 
-            // CASE 5: EXIT
+            
             case 5:
                 cout << "Shutting down simulator.\n";
                 return 0;
