@@ -1,0 +1,106 @@
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+>> Configure RAM Size (bytes): >> Configure Page Size (bytes): 
+>> L1 Cache (Size BlockSize Assoc): >> L2 Cache (Size BlockSize Assoc): 
+[System] Initialization Complete.
+Physical Memory : 512 bytes
+Page Size (for Virtual Memory simulations)  : 16 bytes
+Total Frames (for Virtual Memory simulations)  : 32
+L1 Size: 64B | Block Size:16B | Assoc: 4-way
+L2 Size: 128B | Block Size:16B | Assoc: 4-way
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Bytes required:    Select Mode: [1] Linear (FF/BF/WF) [2] Buddy System: Allocator mode set to LINEAR
+   Algo: [1] FirstFit [2] BestFit [3] WorstFit: Allocated block id=1 at address=0x0
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Bytes required:    Algo: [1] FirstFit [2] BestFit [3] WorstFit: Allocated block id=2 at address=0x32
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Bytes required:    Algo: [1] FirstFit [2] BestFit [3] WorstFit: Allocated block id=3 at address=0x64
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Block ID to free: Block 2 freed
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Bytes required:    Algo: [1] FirstFit [2] BestFit [3] WorstFit: Allocated block id=4 at address=0x32
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Visual Map (Dump)
+   [2] Detailed Stats
+   Choice: Linear allocator in use 
+----- Memory Dump -----
+[0x0000 - 0x0031] USED (id=1)
+[0x0032 - 0x0059] USED (id=4)
+[0x005a - 0x0063] FREE
+[0x0064 - 0x0095] USED (id=3)
+[0x0096 - 0x01ff] FREE
+-----------------------
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: Shutting down simulator.

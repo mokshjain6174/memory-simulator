@@ -1,0 +1,160 @@
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+>> Configure RAM Size (bytes): >> Configure Page Size (bytes): 
+>> L1 Cache (Size BlockSize Assoc): >> L2 Cache (Size BlockSize Assoc): 
+[System] Initialization Complete.
+Physical Memory : 256 bytes
+Page Size (for Virtual Memory simulations)  : 16 bytes
+Total Frames (for Virtual Memory simulations)  : 16
+L1 Size: 64B | Block Size:16B | Assoc: 4-way
+L2 Size: 128B | Block Size:16B | Assoc: 4-way
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Bytes required:    Select Mode: [1] Linear (FF/BF/WF) [2] Buddy System: Allocator mode set to BUDDY
+Allocated block id=1 at address=0x0
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Bytes required: Allocated block id=2 at address=0x80
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Block ID to free: Block 1 freed
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Bytes required: Allocated block id=3 at address=0x0
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Bytes required: Allocation failed
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Block ID to free: Block 2 freed
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Visual Map (Dump)
+   [2] Detailed Stats
+   Choice:  Buddy allocator in use 
+---- Buddy Allocations ----
+Addr	Req	Alloc	InternalFrag
+0x0	20	128	108
+---- Buddy Free Lists ----
+Order 7 (size 128): 0x80 
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Visual Map (Dump)
+   [2] Detailed Stats
+   Choice: =======STATISTICS=======
+
+----- Memory -----
+Allocator Type: Buddy System
+Total Memory: 256 bytes
+Used Memory: 128 bytes
+Free Memory: 128 bytes
+Internal Fragmentation: 108 bytes (84.375% of allocated memory)
+External Fragmentation: 0 bytes (0%)
+Memory Utilization: 50%
+
+Per Allocation Fragmentation:
+---- Buddy Allocations ----
+Addr	Req	Alloc	InternalFrag
+0x0	20	128	108
+
+----- Virtual Memory -----
+Total Page Hits: 0
+Total Page Faults: 0
+Fault Rate: 0%
+
+Per-Process Frame Usage:
+No virtual memory initialized for any process.
+
+----- Cache -----
+L1 Accesses: 0
+L1 Hits: 0
+L1 Misses: 0
+L2 Accesses: 0
+L2 Hits: 0
+L2 Misses: 0
+Total Memory Access Cycles: 0
+Disk Penalty per fault: 200
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: Shutting down simulator.

@@ -1,0 +1,126 @@
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+>> Configure RAM Size (bytes): >> Configure Page Size (bytes): 
+>> L1 Cache (Size BlockSize Assoc): >> L2 Cache (Size BlockSize Assoc): 
+[System] Initialization Complete.
+Physical Memory : 256 bytes
+Page Size (for Virtual Memory simulations)  : 16 bytes
+Total Frames (for Virtual Memory simulations)  : 16
+L1 Size: 64B | Block Size:16B | Assoc: 4-way
+L2 Size: 128B | Block Size:16B | Assoc: 4-way
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice:    PID:    Size: Virtual memory initialized for PID 1 of size: 512B
+
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice:    PID:    Virtual Addr: PAGE FAULT (PID 1, page 0)
+Mapped (PID 1, page 0) -> frame 0
+Physical address = 0
+L1 miss. L2 miss. Accessing main memory.
+
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice:    PID:    Virtual Addr: PAGE FAULT (PID 1, page 1)
+Mapped (PID 1, page 1) -> frame 1
+Physical address = 16
+L1 miss. L2 miss. Accessing main memory.
+
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice:    PID:    Virtual Addr: PAGE HIT (PID 1, page 0, frame 0)
+Physical address = 0
+L1 hit!
+
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice:    PID:    Virtual Addr: PAGE HIT (PID 1, page 0, frame 0)
+Physical address = 0
+L1 hit!
+
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice: 
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Visual Map (Dump)
+   [2] Detailed Stats
+   Choice: =======STATISTICS=======
+
+----- Memory -----
+No allocator active
+
+----- Virtual Memory -----
+Total Page Hits: 2
+Total Page Faults: 2
+Fault Rate: 50%
+
+Per-Process Frame Usage:
+PID 1: 2/16 frames used
+
+----- Cache -----
+L1 Accesses: 4
+L1 Hits: 2
+L1 Misses: 2
+L1 Hit Ratio: 50%
+L2 Accesses: 2
+L2 Hits: 0
+L2 Misses: 2
+L2 Hit Ratio: 0%
+Total Memory Access Cycles: 514
+Disk Penalty per fault: 200
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: Shutting down simulator.
