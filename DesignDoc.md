@@ -35,11 +35,11 @@ The simulator allows the user to switch between two fundamentally different ways
 This strategy manages memory as a linked list of blocks. When a request comes in, it scans the list to find a suitable hole.
 
 * **First Fit:**
-    * *Logic:* Scans from the beginning and picks the **first** free block that is big enough.
+    *  Scans from the beginning and picks the **first** free block that is big enough.
 * **Best Fit:**
-    * *Logic:* Scans the **entire** list to find the **smallest** free block that fits the request perfectly (or closely).
+    *  Scans the **entire** list to find the **smallest** free block that fits the request perfectly (or closely).
 * **Worst Fit:**
-    * *Logic:* Deliberately picks the **largest** available free block.
+    *  Deliberately picks the **largest** available free block.
 
 ### 3.2 Buddy System Design
 The Buddy System is designed to minimize external fragmentation and allow fast merging (coalescing).
