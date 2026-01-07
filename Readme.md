@@ -110,7 +110,7 @@ run_all_tests.bat
 ```
 ---
 
-##Assumptions & Simplifications
+## Assumptions & Simplifications
 * Implicit demand paging: unmapped pages trigger a page fault and are automatically mapped (no segmentation faults).
 * Heap & paging are independent: allocators manage heap; paging manages frames/page tables separately.
 * No protection bits: R/W/X permissions are not simulated.
