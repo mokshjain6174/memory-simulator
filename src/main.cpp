@@ -348,8 +348,12 @@ int main() {
                             cout << "   PID: "; cin >> p;
                             cout << "   Virtual Addr: "; cin >> vaddr;
                             int phys = vm_access(p, vaddr);
-                            cout << "Physical address = " << phys << "\n"; // Matches friend's string
-                            if (phys != -1) perform_memory_lookup(phys);
+                            if (phys == -1){
+                                cout << "Physical address = -1 (Error: Invalid PID or Segmentation Fault)\n";
+                            }else{
+                                cout << "Physical address = " << phys << "\n";
+                                perform_memory_lookup(phys);
+                            }   
                             break;
                         }
                         case 3: { // vm_table
