@@ -10,10 +10,6 @@
 
 using namespace std;
 
-// ==========================================
-//    GLOBAL VARIABLES 
-// ==========================================
-
 BuddyAllocator* sys_buddy = nullptr;
 Cache* primary_cache = nullptr;    
 Cache* secondary_cache = nullptr;  
@@ -30,16 +26,12 @@ enum AllocationStrategy {
 
 AllocationStrategy current_strategy = STRAT_UNSET; 
 
-// ==========================================
-//    HELPER FUNCTIONS
-// ==========================================
-
 void perform_memory_lookup(int target_addr) {
     if (target_addr < 0) return;
 
     if (primary_cache->access(target_addr)) {
         total_cycles += l1_penalty;
-        cout << "L1 hit!\n"; // Matched friend's string
+        cout << "L1 hit!\n"; 
         return;
     }
 
@@ -47,22 +39,18 @@ void perform_memory_lookup(int target_addr) {
 
     if (secondary_cache->access(target_addr)) {
         total_cycles += l2_penalty;
-        cout << "L1 miss. L2 hit.\n"; // Matched friend's string
+        cout << "L1 miss. L2 hit.\n"; 
         return;
     }
 
     total_cycles += l2_penalty + memory_penalty;
-    cout << "L1 miss. L2 miss. Accessing main memory.\n"; // Matched friend's string
+    cout << "L1 miss. L2 miss. Accessing main memory.\n"; 
 }
 
 void flush_input() {
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
-
-// ==========================================
-//    UI / MENU FUNCTIONS
-// ==========================================
 
 void ui_line() {
     cout << "--------------------------------------------------------\n";
@@ -86,12 +74,9 @@ void show_vm_submenu() {
     cout << "   [4] Back\n";
     cout << "\n   Input Choice: ";
 }
-
-// Rewritten to match ALL data points from friend's code
 void print_system_report() {
     cout << "=======STATISTICS=======\n";
 
-    // 1. MEMORY STATS
     cout << "\n----- Memory -----\n";
     if (current_strategy == STRAT_LINEAR) {
         cout << "Allocator Type: Linear (FF/BF/WF)\n";
@@ -137,7 +122,6 @@ void print_system_report() {
         cout << "No allocator active\n";
     }
 
-    // 2. VIRTUAL MEMORY STATS
     cout << "\n----- Virtual Memory -----\n";
     int h = get_page_hits();
     int f = get_page_faults();
@@ -164,17 +148,12 @@ void print_system_report() {
         }
     }
 
-    // 3. CACHE STATS
     cout << "\n----- Cache -----\n";
     primary_cache->print_stats("L1");
     secondary_cache->print_stats("L2");
     cout << "Total Memory Access Cycles: " << total_cycles << "\n";
     cout << "Disk Penalty per fault: " << disk_penalty << "\n";
 }
-
-// ==========================================
-//    MAIN ENTRY POINT
-// ==========================================
 
 int main() {
     int user_selection;
@@ -267,7 +246,7 @@ int main() {
                         cin >> mode_sel;
                         current_strategy = (mode_sel == 2) ? STRAT_BUDDY : STRAT_LINEAR;
                         
-                        // Echo selection to match friend's behavior
+                
                         cout << "Allocator mode set to " << (current_strategy == STRAT_BUDDY ? "BUDDY\n" : "LINEAR\n");
                     }
 
@@ -286,13 +265,13 @@ int main() {
                     }
 
                     if (result_addr == -1) {
-                        cout << "Allocation failed\n"; // Matches friend's string
+                        cout << "Allocation failed\n"; 
                     } else {
                         int blk_id = (current_strategy == STRAT_BUDDY) 
                                      ? buddy_ids[result_addr] 
                                      : get_block_id(result_addr);
                         
-                        // Matches friend's allocation success string format
+                    
                         cout << "Allocated block id=" << blk_id << " at address=0x" << hex << result_addr << dec << "\n";
                     }
 
@@ -315,9 +294,9 @@ int main() {
                     if (addr_to_free != -1) {
                         if (buddy_ids.count(addr_to_free)) sys_buddy->buddy_free(addr_to_free);
                         else free_block(addr_to_free);
-                        cout << "Block " << target_id << " freed\n"; // Matches friend's string
+                        cout << "Block " << target_id << " freed\n"; 
                     } else {
-                        cout << "No block with id=" << target_id << "\n"; // Matches friend's string
+                        cout << "No block with id=" << target_id << "\n"; 
                     }
                 }
                 break;
