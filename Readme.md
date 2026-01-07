@@ -20,8 +20,6 @@ The goal of this simulator is to visualize and analyze the performance trade-off
 - **Buddy System:** Power-of-two allocator with recursive splitting and coalescing
 - **Fragmentation Analysis:** Tracks internal and external fragmentation in real time
 
----
-
 ### 2. Virtual Memory System
 * **Paging:** Simulates address translation from Virtual Addresses (VA) to Physical Addresses (PA) using per-process page tables.
 * **Page Fault Handling:** Simulates disk access latency and frame allocation upon page faults.
@@ -42,7 +40,7 @@ The goal of this simulator is to visualize and analyze the performance trade-off
 ## 🚀 How to Build and Run
 
 To compile and run the project, try the following methods in order.
-
+---
 ### Method 1: Using `make`
 Open your terminal in the project directory and run:
 
@@ -50,6 +48,7 @@ Open your terminal in the project directory and run:
 make
 ./memsim
 ```
+---
 ### Method 2: Using mingw32-make
 If the standard make command is not found, try using the MinGW specific make command:
 
@@ -57,7 +56,7 @@ If the standard make command is not found, try using the MinGW specific make com
 mingw32-make
 ./memsim
 ```
-
+---
 ### Method 3: Manual Compilation (Terminal)
 If you do not have Make installed, you can compile the source files directly using g++:
 
@@ -65,7 +64,7 @@ If you do not have Make installed, you can compile the source files directly usi
 g++ -std=c++17 -O2 -Wall src/main.cpp src/memory.cpp src/buddy.cpp src/cache.cpp src/vm.cpp -Iinclude -o memsim
 ./memsim
 ```
-
+---
 ### Method 4: Windows Command Prompt (CMD)
 If the above methods fail or you prefer using the standard Windows Command Prompt:
 
@@ -82,3 +81,4 @@ g++ -std=c++17 -O2 -Wall src/main.cpp src/memory.cpp src/buddy.cpp src/cache.cpp
 ```
 memsim.exe
 ```
+---
