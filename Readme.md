@@ -86,6 +86,7 @@ memsim.exe
 
 ## 🚀 How to Run Automated Tests
 ---
+### For Linux and MacOS
 ### Run each test and save output
 Example
 ```
