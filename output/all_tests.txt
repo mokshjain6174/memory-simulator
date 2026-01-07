@@ -1,0 +1,597 @@
+===== BUDDY TEST =====  
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+>> Configure RAM Size (bytes): >> Configure Page Size (bytes): 
+>> L1 Cache (Size BlockSize Assoc): >> L2 Cache (Size BlockSize Assoc): 
+[System] Initialization Complete.
+Physical Memory : 256 bytes
+Page Size (for Virtual Memory simulations)  : 16 bytes
+Total Frames (for Virtual Memory simulations)  : 16
+L1 Size: 64B | Block Size:16B | Assoc: 4-way
+L2 Size: 128B | Block Size:16B | Assoc: 4-way
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Bytes required:    Select Mode: [1] Linear (FF/BF/WF) [2] Buddy System: Allocator mode set to BUDDY
+Allocated block id=1 at address=0x0
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Bytes required: Allocated block id=2 at address=0x80
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Block ID to free: Block 1 freed
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Bytes required: Allocated block id=3 at address=0x0
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Bytes required: Allocation failed
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Block ID to free: Block 2 freed
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Visual Map (Dump)
+   [2] Detailed Stats
+   Choice:  Buddy allocator in use 
+---- Buddy Allocations ----
+Addr	Req	Alloc	InternalFrag
+0x0	20	128	108
+---- Buddy Free Lists ----
+Order 7 (size 128): 0x80 
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Visual Map (Dump)
+   [2] Detailed Stats
+   Choice: =======STATISTICS=======
+
+----- Memory -----
+Allocator Type: Buddy System
+Total Memory: 256 bytes
+Used Memory: 128 bytes
+Free Memory: 128 bytes
+Internal Fragmentation: 108 bytes (84.375% of allocated memory)
+External Fragmentation: 0 bytes (0%)
+Memory Utilization: 50%
+
+Per Allocation Fragmentation:
+---- Buddy Allocations ----
+Addr	Req	Alloc	InternalFrag
+0x0	20	128	108
+
+----- Virtual Memory -----
+Total Page Hits: 0
+Total Page Faults: 0
+Fault Rate: 0%
+
+Per-Process Frame Usage:
+No virtual memory initialized for any process.
+
+----- Cache -----
+L1 Accesses: 0
+L1 Hits: 0
+L1 Misses: 0
+L2 Accesses: 0
+L2 Hits: 0
+L2 Misses: 0
+Total Memory Access Cycles: 0
+Disk Penalty per fault: 200
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: Shutting down simulator.
+===== LINEAR TEST ===== 
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+>> Configure RAM Size (bytes): >> Configure Page Size (bytes): 
+>> L1 Cache (Size BlockSize Assoc): >> L2 Cache (Size BlockSize Assoc): 
+[System] Initialization Complete.
+Physical Memory : 512 bytes
+Page Size (for Virtual Memory simulations)  : 16 bytes
+Total Frames (for Virtual Memory simulations)  : 32
+L1 Size: 64B | Block Size:16B | Assoc: 4-way
+L2 Size: 128B | Block Size:16B | Assoc: 4-way
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Bytes required:    Select Mode: [1] Linear (FF/BF/WF) [2] Buddy System: Allocator mode set to LINEAR
+   Algo: [1] FirstFit [2] BestFit [3] WorstFit: Allocated block id=1 at address=0x0
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Bytes required:    Algo: [1] FirstFit [2] BestFit [3] WorstFit: Allocated block id=2 at address=0x32
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Bytes required:    Algo: [1] FirstFit [2] BestFit [3] WorstFit: Allocated block id=3 at address=0x64
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Block ID to free: Block 2 freed
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Allocate (Malloc)
+   [2] Deallocate (Free)
+   Choice:    Bytes required:    Algo: [1] FirstFit [2] BestFit [3] WorstFit: Allocated block id=4 at address=0x32
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Visual Map (Dump)
+   [2] Detailed Stats
+   Choice: Linear allocator in use 
+----- Memory Dump -----
+[0x0000 - 0x0031] USED (id=1)
+[0x0032 - 0x0059] USED (id=4)
+[0x005a - 0x0063] FREE
+[0x0064 - 0x0095] USED (id=3)
+[0x0096 - 0x01ff] FREE
+-----------------------
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: Shutting down simulator.
+===== CACHE TEST =====  
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+>> Configure RAM Size (bytes): >> Configure Page Size (bytes): 
+>> L1 Cache (Size BlockSize Assoc): >> L2 Cache (Size BlockSize Assoc): 
+[System] Initialization Complete.
+Physical Memory : 256 bytes
+Page Size (for Virtual Memory simulations)  : 16 bytes
+Total Frames (for Virtual Memory simulations)  : 16
+L1 Size: 64B | Block Size:16B | Assoc: 4-way
+L2 Size: 128B | Block Size:16B | Assoc: 4-way
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice:    PID:    Size: Virtual memory initialized for PID 1 of size: 512B
+
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice:    PID:    Virtual Addr: PAGE FAULT (PID 1, page 0)
+Mapped (PID 1, page 0) -> frame 0
+Physical address = 0
+L1 miss. L2 miss. Accessing main memory.
+
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice:    PID:    Virtual Addr: PAGE FAULT (PID 1, page 1)
+Mapped (PID 1, page 1) -> frame 1
+Physical address = 16
+L1 miss. L2 miss. Accessing main memory.
+
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice:    PID:    Virtual Addr: PAGE HIT (PID 1, page 0, frame 0)
+Physical address = 0
+L1 hit!
+
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice:    PID:    Virtual Addr: PAGE HIT (PID 1, page 0, frame 0)
+Physical address = 0
+L1 hit!
+
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice: 
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Visual Map (Dump)
+   [2] Detailed Stats
+   Choice: =======STATISTICS=======
+
+----- Memory -----
+No allocator active
+
+----- Virtual Memory -----
+Total Page Hits: 2
+Total Page Faults: 2
+Fault Rate: 50%
+
+Per-Process Frame Usage:
+PID 1: 2/16 frames used
+
+----- Cache -----
+L1 Accesses: 4
+L1 Hits: 2
+L1 Misses: 2
+L1 Hit Ratio: 50%
+L2 Accesses: 2
+L2 Hits: 0
+L2 Misses: 2
+L2 Hit Ratio: 0%
+Total Memory Access Cycles: 514
+Disk Penalty per fault: 200
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: Shutting down simulator.
+===== VM TEST =====     
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+>> Configure RAM Size (bytes): >> Configure Page Size (bytes): 
+>> L1 Cache (Size BlockSize Assoc): >> L2 Cache (Size BlockSize Assoc): 
+[System] Initialization Complete.
+Physical Memory : 256 bytes
+Page Size (for Virtual Memory simulations)  : 16 bytes
+Total Frames (for Virtual Memory simulations)  : 16
+L1 Size: 64B | Block Size:16B | Assoc: 4-way
+L2 Size: 128B | Block Size:16B | Assoc: 4-way
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice:    PID:    Size: Virtual memory initialized for PID 1 of size: 1024B
+
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice:    PID:    Virtual Addr: PAGE FAULT (PID 1, page 0)
+Mapped (PID 1, page 0) -> frame 0
+Physical address = 0
+L1 miss. L2 miss. Accessing main memory.
+
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice:    PID:    Virtual Addr: PAGE FAULT (PID 1, page 6)
+Mapped (PID 1, page 6) -> frame 1
+Physical address = 20
+L1 miss. L2 miss. Accessing main memory.
+
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice:    PID:    Virtual Addr: PAGE FAULT (PID 1, page 12)
+Mapped (PID 1, page 12) -> frame 2
+Physical address = 40
+L1 miss. L2 miss. Accessing main memory.
+
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice:    PID:    Virtual Addr: PAGE FAULT (PID 1, page 31)
+Mapped (PID 1, page 31) -> frame 3
+Physical address = 52
+L1 miss. L2 miss. Accessing main memory.
+
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice:    PID: PID 1 Page Table
+Page	Valid	Frame
+0	1	0
+1	0	-1
+2	0	-1
+3	0	-1
+4	0	-1
+5	0	-1
+6	1	1
+7	0	-1
+8	0	-1
+9	0	-1
+10	0	-1
+11	0	-1
+12	1	2
+13	0	-1
+14	0	-1
+15	0	-1
+16	0	-1
+17	0	-1
+18	0	-1
+19	0	-1
+20	0	-1
+21	0	-1
+22	0	-1
+23	0	-1
+24	0	-1
+25	0	-1
+26	0	-1
+27	0	-1
+28	0	-1
+29	0	-1
+30	0	-1
+31	1	3
+32	0	-1
+33	0	-1
+34	0	-1
+35	0	-1
+36	0	-1
+37	0	-1
+38	0	-1
+39	0	-1
+40	0	-1
+41	0	-1
+42	0	-1
+43	0	-1
+44	0	-1
+45	0	-1
+46	0	-1
+47	0	-1
+48	0	-1
+49	0	-1
+50	0	-1
+51	0	-1
+52	0	-1
+53	0	-1
+54	0	-1
+55	0	-1
+56	0	-1
+57	0	-1
+58	0	-1
+59	0	-1
+60	0	-1
+61	0	-1
+62	0	-1
+63	0	-1
+
+   >>> Virtual Memory Controls <<<
+   [1] Init Process (vm_init)
+   [2] Translate & Access Address
+   [3] Inspect Page Table
+   [4] Back
+
+   Input Choice: 
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: 
+   [1] Visual Map (Dump)
+   [2] Detailed Stats
+   Choice: =======STATISTICS=======
+
+----- Memory -----
+No allocator active
+
+----- Virtual Memory -----
+Total Page Hits: 0
+Total Page Faults: 4
+Fault Rate: 100%
+
+Per-Process Frame Usage:
+PID 1: 4/16 frames used
+
+----- Cache -----
+L1 Accesses: 4
+L1 Hits: 0
+L1 Misses: 4
+L1 Hit Ratio: 0%
+L2 Accesses: 4
+L2 Hits: 0
+L2 Misses: 4
+L2 Hit Ratio: 0%
+Total Memory Access Cycles: 1024
+Disk Penalty per fault: 200
+
+=== OS MEMORY SIMULATOR ===
+  [1] Configure System (RAM & Page Size)
+  [2] Perform Allocation/Free
+  [3] Virtual Memory Management
+  [4] View Statistics & Dump
+  [5] Exit Application
+
+Input Choice: Shutting down simulator.
