@@ -22,7 +22,6 @@ This document details the design and implementation of a Memory Management Simul
 * **Isolation:** Process A cannot access Process B's memory because their Virtual Pages map to different Physical Frames.
 
 ### 2.3 System Assumptions
-1.  **Single-Threaded Simulation:** The simulator runs as a single process. Concurrency is modeled logically, not via actual OS threads.
 2.  **Simulated Disk I/O:** Reading from "Disk" (during a Page Fault) is simulated by adding a time penalty (cycle count), not by reading actual files on the hard drive.
 3.  **Volatile Storage:** All memory states are lost when the simulator exits.
   
@@ -37,13 +36,10 @@ This strategy manages memory as a linked list of blocks. When a request comes in
 
 * **First Fit:**
     * *Logic:* Scans from the beginning and picks the **first** free block that is big enough.
-    * *Pros/Cons:* Very fast allocation, but tends to leave "splinters" (small gaps) at the beginning of memory.
 * **Best Fit:**
     * *Logic:* Scans the **entire** list to find the **smallest** free block that fits the request perfectly (or closely).
-    * *Pros/Cons:* Minimizes wasted space by saving large holes for later, but is slower because it searches the whole list.
 * **Worst Fit:**
     * *Logic:* Deliberately picks the **largest** available free block.
-    * *Pros/Cons:* Ensures the leftover gap is large enough to be potentially useful, but quickly consumes big contiguous blocks.
 
 ### 3.2 Buddy System Design
 The Buddy System is designed to minimize external fragmentation and allow fast merging (coalescing).
@@ -141,7 +137,7 @@ Unlike the cache (which uses FIFO), the Virtual Memory system uses **LRU (Least 
 
 While this simulator is comprehensive, it simplifies certain aspects of a real OS:
 
-## Assumptions & Simplifications
+## Limitations & Simplifications
 * Implicit demand paging: unmapped pages trigger a page fault and are automatically mapped (no segmentation faults).
 * Heap & paging are independent: allocators manage heap; paging manages frames/page tables separately.
 * No protection bits: R/W/X permissions are not simulated.
