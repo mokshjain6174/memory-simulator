@@ -1,5 +1,5 @@
 # Memory Management Simulator
-
+---
 ## Overview
 
 This project is a comprehensive simulation of an **Operating System Memory Management Unit (MMU)**.  
