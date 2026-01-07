@@ -74,6 +74,7 @@ mingw32-make
 ```
 ---
 ### Method 3: Manual Compilation (Terminal)
+
 If you do not have Make installed, you can compile the source files directly using g++:
 
 ```bash
