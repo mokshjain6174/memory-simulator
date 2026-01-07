@@ -165,3 +165,8 @@ MemorySimulator/
 ├── Makefile                 # Compilation script
 └── Readme.md                # Project documentation
 ```
+
+---
+
+**Author:** Moksh Jain
+---
