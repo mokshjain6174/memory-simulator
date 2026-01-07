@@ -84,15 +84,16 @@ memsim.exe
 ---
 
 
-## 🚀 How to Run Automated Tests
+## 🚀 How to Run Tests
 ---
 ### For Linux, MacOS and MSYS2 / Git Bash (Windows)
-### Run each test and save output
-Example
+### Manually
+Example - It's output stored in buddy_out.txt
 ```
 ./memsim.exe < test/buddy.txt  > output/buddy_out.txt
 ```
-### Running each test and saving all outputs in in one file `all_tests.txt`
+### Automated
+Running each test and saving all outputs in in one file `all_tests.txt`
 ```
 chmod +x run_all_tests.sh
 ./run_all_tests.sh
@@ -100,11 +101,13 @@ chmod +x run_all_tests.sh
 
 ---
 ### For Windows (cmd)
-### Run each test and save output
+### Manually
+Example - It's output is stored in 
 ```
-memsim.exe < test\linear.txt >> output\all_tests.txt
+memsim.exe < test\linear.txt >> output\linear_out.txt
 ```
-### Running each test and saving all outputs in in one file `all_tests.txt`
+### Automated
+Running each test and saving all outputs in in one file `all_tests.txt`
 ```
 run_all_tests.bat
 ```
