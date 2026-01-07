@@ -71,13 +71,14 @@ If the above methods fail or you prefer using the standard Windows Command Promp
 
 1. Open Command Prompt (cmd).
 2. Navigate to your project directory:
-cmd```
+```
 cd /d E:\MemorySimulator
-
+```
 3. Run the compilation command manually:
-cmd```
+```
 g++ -std=c++17 -O2 -Wall src/main.cpp src/memory.cpp src/buddy.cpp src/cache.cpp src/vm.cpp -Iinclude -o memsim
-
+```
 4. Run the executable:
-cmd```
+```
 memsim.exe
+```
